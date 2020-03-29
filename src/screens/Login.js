@@ -29,7 +29,8 @@ export default class Login extends Component {
   }
 
   signin = () => {
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    firebase.auth().signInWithEmailAndPassword('egg@egg.com', 'password')
+    // firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then(res => {
       firebase.database().ref('profile/' + res.user.uid)
       .once('value')

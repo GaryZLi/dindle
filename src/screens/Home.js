@@ -47,7 +47,8 @@ export default class Home extends Component {
     this.config['params'] = {
       term: 'restaurants',
       open_now: true,
-      location: this.state.city + ', ' + this.state.state,
+      location: 'oakland, ca',
+      // location: this.state.city + ', ' + this.state.state,
       limit: 30
     }
 
@@ -70,26 +71,35 @@ export default class Home extends Component {
         }
       }
 
-      firebase.database().ref('connections/' + this.props.user.userName)
+      firebase.database().ref('connections/' + this.props.user.userName.toLowerCase())
       .set({
         restaurants: data,
         users: [this.props.user.userName]
       })
-      .then(console.log('------------------------------------------------------------------------------------>'))
+      .then(this.props.changeScreen(['LoadingScreen', this.props.user.userName]))
       .catch(err => this.setState({error: true, errorMsg: err.code}))
     }) 
     .catch((error) => this.setState({error: true, errorMsg: error.code}))
   }
 
   connect = () => {
-    if (this.state.hostName === '') {
+    console.log("connect")
+
+    this.setState((prev) => ({hostName: prev.hostName.toLowerCase()}))
+
+    if (this.state.hostName === this.props.user.userName) {
+      return this.setState(() => ({error: true, errorMsg: "Cannot connect to own session!"}))
+    }
+    else if (this.state.hostName === '') {
       return this.setState(() => ({error: true, errorMsg: "Please enter the host's username!"}))
     }
+    
 
     firebase.database().ref('connections')
     .once('value', snapshot => {
       if (snapshot.child(this.state.hostName).exists()) {
-        
+        firebase.database().ref('connections/' + this.state.hostName + '/' + 'users')
+        .update({[this.props.user.userName]: ''})
       }
       else {
         this.setState({error: true, errorMsg: 'This host has not started a session yet!'})

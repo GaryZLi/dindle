@@ -3,6 +3,8 @@ import Landing from '../screens/Landing';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
+import Loading from '../screens/Loading';
+import Restaurants from '../screens/Restaurants';
 
 export default class Navigator extends React.Component {
     constructor() {
@@ -21,7 +23,8 @@ export default class Navigator extends React.Component {
             this.setState({screen: data})
         }
         else {
-            this.setState({screen: data[0], user: data[1]})
+            console.log('0------0')
+            this.setState(() => ({screen: data[0], user: data[1]}))
         }
     }
 
@@ -39,6 +42,12 @@ export default class Navigator extends React.Component {
         }
         else if (this.state.screen === 'HomeScreen') {
             screen = <Home changeScreen={this.changeScreen} user={this.state.user}/>
+        }
+        else if (this.state.screen === 'LoadingScreen') {
+            screen = <Loading changeScreen={this.changeScreen} user={this.state.user}/>
+        }
+        else if (this.state.screen === 'RestaurantsScreen') {
+            screen = <Restaurants changeScreen={this.changeScreen} user={this.state.user}/>
         }
 
         return (
