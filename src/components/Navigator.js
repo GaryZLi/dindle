@@ -1,6 +1,7 @@
 import React from 'react';
 import Landing from '../screens/Landing';
 import Login from '../screens/Login';
+import SignUp from '../screens/SignUp';
 
 export default class Navigator extends React.Component {
     constructor() {
@@ -25,7 +26,7 @@ export default class Navigator extends React.Component {
             screen = <Login changeScreen={this.changeScreen}/>
         }
         else if (this.state.screen === 'SignupScreen') {
-            screen = <Signup changeScreen={this.changeScreen}/>
+            screen = <SignUp changeScreen={this.changeScreen}/>
         }
 
         return (

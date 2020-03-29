@@ -5,6 +5,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  StatusBar
 } from 'react-native';
 
 export default class Landing extends Component {
@@ -14,6 +15,7 @@ export default class Landing extends Component {
 
     render() {
         return <View>
+            <StatusBar barStyle="dark-content"></StatusBar>
             <View style={styles.container}>
               <View style={styles.logoContainer}>
                 <Image
