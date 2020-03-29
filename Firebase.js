@@ -13,5 +13,5 @@ if (!firebase.apps.length) {
     })
 }
 
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+// firebase.initializeApp(firebaseConfig);
+// firebase.analytics();
