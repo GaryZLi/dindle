@@ -219,15 +219,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginBottom: 10,
   },
-  descriptionContainerTwo: {
-    flex: 1,
-    resizeMode: "contain",
-    flexDirection: "row",
-    alignSelf: 'flex-start',
-    justifyContent: "space-evenly",
-    width: "100%",
-    marginBottom: 10
-  },
   bottomContainer: {
     flex: 1,
     flexDirection: "row",
