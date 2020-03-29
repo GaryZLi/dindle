@@ -9,32 +9,32 @@ import {
   TouchableOpacity
 } from "react-native";
 
-import CardStack, { Card } from 'react-native-card-stack-swiper';
+import CardStack, { Card } from "react-native-card-stack-swiper";
 
 class RestaurantContent extends Component {
-    render(){
-        return (<View style={styles.imageContainer}>
+  render() {
+    return (
+        <View style={styles.content}>
+      <View style={styles.imageContainer}>
         <Image
           style={styles.image}
           source={require("../components/picSrc/restaurant.png")}
         ></Image>
-        <View style={styles.descriptionContainerOne}>
-        <View style={styles.descriptionLineOne}>
-          <Text style={styles.description}>Restaurant name</Text>
-          <Text style={styles.description}>$$</Text>
-        </View>
-        </View>
-        <View style={styles.descriptionContainerTwo}>
-        <View style={styles.descriptionLineTwo}>
-          <Text style={styles.description}>5 stars</Text>
-          <Text style={styles.description}>5,000 reviews</Text>
-          <TouchableOpacity style={styles.yelpButton}>
-            <Text style={styles.yelpButtonText}>Link to Yelp</Text>
-          </TouchableOpacity>
-        </View>
-        </View> 
-      </View>);
-    }
+      </View>
+              <View style={styles.descriptionContainerOne}>
+              <Text style={styles.description}>Restaurant name</Text>
+              <Text style={styles.description}>$$</Text>
+          </View>
+          <View style={styles.descriptionContainerTwo}>
+              <Text style={styles.description}>5 stars</Text>
+              <Text style={styles.description}>5,000 reviews</Text>
+              <TouchableOpacity style={styles.yelpButton}>
+                <Text style={styles.yelpButtonText}>Link to Yelp</Text>
+              </TouchableOpacity>
+          </View>
+          </View>
+    );
+  }
 }
 
 export default class Restaurants extends Component {
@@ -42,27 +42,33 @@ export default class Restaurants extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content"></StatusBar>
-        <View style={styles.container}>
         <View style={styles.logoContainer}>
-                <Image
-                  style={styles.logo}
-                  source={require('../components/picSrc/dindle.png')}></Image>
-              </View>
+            <Image
+              style={styles.logo}
+              source={require("../components/picSrc/dindle.png")}
+            ></Image>
+          </View>
           <Text style={styles.title}>Restaurants</Text>
+        <View style={styles.container}>
 
-          <CardStack style={styles.content} ref={swiper => { this.swiper = swiper }}>
-              {/* TODO: need to include onSwipedLeft and onSwipedRight for each card generated
+          <CardStack
+            style={styles.content}
+            ref={swiper => {
+              this.swiper = swiper;
+            }}
+          >
+            {/* TODO: need to include onSwipedLeft and onSwipedRight for each card generated
               basically action that is done when a card is swiped left or right */}
-    <Card style={[styles.card, styles.card1]}>
-                  <RestaurantContent></RestaurantContent>
-        </Card>
-    <Card style={[styles.card, styles.card2]}>
-    <RestaurantContent></RestaurantContent>
-        </Card>
-    <Card style={[styles.card, styles.card1]}>
-    <RestaurantContent></RestaurantContent>
-        </Card>
-  </CardStack>
+            <Card style={[styles.card, styles.card1]}>
+              <RestaurantContent></RestaurantContent>
+            </Card>
+            <Card style={[styles.card, styles.card2]}>
+              <RestaurantContent></RestaurantContent>
+            </Card>
+            <Card style={[styles.card, styles.card1]}>
+              <RestaurantContent></RestaurantContent>
+            </Card>
+          </CardStack>
         </View>
       </SafeAreaView>
     );
@@ -70,70 +76,65 @@ export default class Restaurants extends Component {
 }
 
 const styles = StyleSheet.create({
-    content:{
-        flex: 5,
-        alignItems: 'center',
-        justifyContent: 'center',
-      },
-      card:{
-        width: 320,
-        height: 470,
-        backgroundColor: '#ffa79c',
-        borderRadius: 5,
-        shadowColor: 'rgba(0,0,0,0.5)',
-        shadowOffset: {
-          width: 0,
-          height: 1
-        },
-        shadowOpacity:0.5,
-      },
-      card1: {
-        backgroundColor: '#ffa79c',
-      },
-      card2: {
-        backgroundColor: '#ffa79c',
-      },
-      label: {
-        lineHeight: 400,
-        textAlign: 'center',
-        fontSize: 55,
-        fontFamily: 'System',
-        color: '#ffffff',
-        backgroundColor: 'transparent',
-      }, 
-    logoContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0.5,
-      },
-      logo: {
-        width: 256,
-        height: 70,
-      },
-    container: {
+  content: {
+    flex: 7,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%"
+  },
+  card: {
+    width: "95%",
+    height: "100%",
+    backgroundColor: "#ffa79c",
+    borderRadius: 5,
+    shadowColor: "rgba(0,0,0,0.5)",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.5,
+    alignSelf: 'center'
+  },
+  card1: {
+    backgroundColor: "#ffa79c"
+  },
+  card2: {
+    backgroundColor: "#ffa79c"
+  },
+  logoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 0.3
+  },
+  logo: {
+    width: 256,
+    height: 70
+  },
+  container: {
     flex: 1,
     backgroundColor: "white",
     flexDirection: "column",
     alignSelf: "center",
     justifyContent: "space-between",
-    width: "95%"
+    width: "100%",
+    height: "100%"
   },
   imageContainer: {
-    marginTop: 20,
+    marginTop: "10%",
     alignItems: "center",
     justifyContent: "center",
-    flex: 4,
+    flex: 4
   },
   image: {
     width: 300,
-    height: 300
+    height: 300,
   },
   title: {
     color: "black",
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 80,
     opacity: 0.9
   },
   description: {
@@ -142,25 +143,22 @@ const styles = StyleSheet.create({
     textAlign: "left"
   },
   descriptionContainerOne: {
-      marginTop: 20,
-    flex: 0.5,
-    resizeMode: "contain",
-    width: "60%"
-  },
-  descriptionLineOne: {
+    marginTop: 10,
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    resizeMode: "contain",
+    flexDirection: "row",
+    alignSelf: 'flex-start',
+    justifyContent: "space-evenly",
+    width: "100%"
   },
   descriptionContainerTwo: {
     flex: 1,
     resizeMode: "contain",
-    width: "60%"
-  },
-  descriptionLineTwo: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignSelf: 'flex-start',
+    justifyContent: "space-evenly",
+    width: "100%",
+    marginBottom: 10
   },
   bottomContainer: {
     flex: 1,
@@ -181,11 +179,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   yelpButton: {
-      backgroundColor: 'pink',
-      height: 20,
-      width: 80,
+    backgroundColor: "pink",
+    height: 20,
+    width: 80
   },
   yelpButtonText: {
-      textAlign: 'center',
-  },
+    textAlign: "center"
+  }
 });
