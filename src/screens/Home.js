@@ -101,7 +101,7 @@ export default class Home extends Component {
       if (snapshot.child(this.state.hostName).exists()) {
         firebase.database().ref('connections/' + this.state.hostName + '/' + 'users')
         .update({[this.props.user.userName]: this.props.user.userName})
-        .then(this.props.changeScreen(['RestaurantsScreen', this.props.user.userName]))
+        .then(this.props.changeScreen(['RestaurantsScreen', this.state.hostName]))
       }
       else {
         this.setState({error: true, errorMsg: 'This host has not started a session yet!'})

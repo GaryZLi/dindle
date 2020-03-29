@@ -55,8 +55,8 @@ export default class Restaurants extends Component {
   render() {
     let restaurantCard = Object.keys(this.state.restaurants).map((data, id) => {
       return (
-        <Card style={[styles.card, styles.card1]}>
-          <RestaurantContent key={id} name={this.state.restaurants[data].name} reviewCount={this.state.restaurants[data].reviewCount} imageUrl={this.state.restaurants[data].imageUrl} price={this.state.restaurants[data].price} stars={this.state.restaurants[data].rating} ></RestaurantContent>
+        <Card key={id} style={[styles.card, styles.card1]}>
+          <RestaurantContent name={this.state.restaurants[data].name} reviewCount={this.state.restaurants[data].reviewCount} imageUrl={this.state.restaurants[data].imageUrl} price={this.state.restaurants[data].price} stars={this.state.restaurants[data].rating} ></RestaurantContent>
         </Card>
       )
     })
