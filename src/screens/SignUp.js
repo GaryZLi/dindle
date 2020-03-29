@@ -12,7 +12,111 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import firebase from 'firebase';
+
 export default class SignUp extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      username: '',
+      password: '',
+      confirmPass: '',
+      error: false,
+      errorMsg: ''
+    }
+  }
+
+  submit = () => {
+    console.log("clicked")
+    this.setState({error: false, errorMsg: ''})
+
+    // for (let item in this.state) {
+    //   if (item != 'error') {
+    //     if (this.state[item] === '') {
+    //       if (item === 'firstName') {
+    //         item = 'Missing First Name!';
+    //       }
+    //       else if (item === 'lastName') {
+    //         item = 'Missing Last Name!';
+    //       }
+    //       else if (item === 'email') {
+    //         item = 'Missing Email!';
+    //       }
+    //       else if (item === 'username') {
+    //         item = 'Missing username!';
+    //       }
+    //       else if (item === 'password') {
+    //         item = 'Missing password!';
+    //       }
+    //       else {
+    //         item = 'Please confirm password!';
+    //       }
+    //       return this.setState(() => ({error: true, errorMsg: item}));
+    //     }
+    //   }
+    // }
+
+    // if (this.state.password !== this.state.confirmPass) {
+    //   return this.setState(() => ({error: true, errorMsg: 'Password does not match!'}));
+    // }
+
+    firebase.database().ref('users')
+    .once('value', snapshot => {
+      if (snapshot.child(this.state.username).exists()) {
+        return this.setState(() => ({error: true, errorMsg: 'Username is chosen!'}));
+      }
+      else {
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(res => {
+          firebase.database().ref('profile')
+          .set({
+            [res.user.uid]: {
+            'firstName': this.state.firstName[0].toUpperCase() + this.state.firstName.slice(1),
+            'lastName': this.state.lastName,
+            'username': this.state.username
+          }})
+          .then(() => {
+            const data = {
+              firstName: this.state.firstName,
+              username: this.state.username
+            }
+            this.props.changeScreen(['HomeScreen', data])
+          })
+        })
+        .catch(err => this.setState({error: true, errorMsg: err.code}))
+
+        firebase.database().ref('users')
+        .update({[this.state.username]: ''})
+        .catch(err => this.setState(() => ({error: true, errorMsg: err.code})));
+      }
+        
+
+
+        // firebase.database().ref('profile')
+        // .set({
+        //   'firstName': firstName,
+        //   'lastName': lastName,
+        //   'username': this.state.username
+        // })
+        // .then(() => {
+        //   const user = {
+        //     'firstName': firstName,
+        //     'lastName': lastName,
+        //     'username': this.state.username
+        //   }
+        //   this.setState({ user: user }, () => console.log("succ"));
+        // })
+        // .catch(err => this.setState({error: true, errorMsg: err.code}))
+      // }
+    })
+  }
+
+
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -32,6 +136,8 @@ export default class SignUp extends Component {
               <View style={styles.textEntryFields}>
                 <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.firstName}
+                    onChangeText={text => this.setState({firstName: text})}
                     style={styles.input}
                     placeholder="First name"
                     placeholderTextcolor="black"
@@ -42,6 +148,8 @@ export default class SignUp extends Component {
                 </View>
                 <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.lastName}
+                    onChangeText={text => this.setState({lastName: text})}
                     style={styles.input}
                     placeholder="Last name"
                     placeholderTextcolor="black"
@@ -53,6 +161,8 @@ export default class SignUp extends Component {
                 </View>
                 <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.email}
+                    onChangeText={text => this.setState({email: text})}
                     style={styles.input}
                     placeholder="Email"
                     placeholderTextcolor="black"
@@ -64,30 +174,22 @@ export default class SignUp extends Component {
                   ></TextInput>
                 </View>
                 <View style={styles.inputBorder}>
-                  <TextInput
+                  <TextInput                    
+                    value={this.state.username}
+                    onChangeText={text => this.setState({username: text})}
                     style={styles.input}
                     placeholder="Username"
                     placeholderTextcolor="black"
                     returnKeyType="next"
                     autoCorrect={false}
                     ref={"username"}
-                    onSubmitEditing={() => this.refs.phonenum.focus()}
-                  ></TextInput>
-                </View>
-                <View style={styles.inputBorder}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Phone number"
-                    placeholderTextcolor="black"
-                    returnKeyType="next"
-                    keyboardType="phone-pad"
-                    autoCorrect={false}
-                    ref={"phonenum"}
                     onSubmitEditing={() => this.refs.password.focus()}
                   ></TextInput>
                 </View>
                 <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.password}
+                    onChangeText={text => this.setState({password: text})}
                     style={styles.input}
                     placeholder="Password"
                     placeholderTextcolor="black"
@@ -100,6 +202,8 @@ export default class SignUp extends Component {
                 </View>
                 <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.confirmPass}
+                    onChangeText={text => this.setState({confirmPass: text})}
                     style={styles.input}
                     placeholder="Confirm password"
                     placeholderTextcolor="black"
@@ -107,11 +211,13 @@ export default class SignUp extends Component {
                     secureTextEntry
                     autoCorrect={false}
                     ref={"confirmpass"}
+                    onSubmitEditing={() => this.submit()}
                   ></TextInput>
                 </View>
                 <TouchableOpacity style={styles.buttonContainer}>
-                  <Text style={styles.buttonText}>SUBMIT</Text>
+                  <Text style={styles.buttonText} onPress={() => this.submit()}>SUBMIT</Text>
                 </TouchableOpacity>
+                {this.state.error && <Text style={styles.errorText}>{this.state.errorMsg}</Text>}
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -171,5 +277,9 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
     paddingHorizontal: 5
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "center",
   }
 });

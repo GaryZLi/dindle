@@ -8,12 +8,22 @@ export default class Navigator extends React.Component {
         super();
 
         this.state = {
-            screen: 'LandingScreen'
+            screen: 'LandingScreen',
+            user: ''
         }
+
+        this.changeScreen = this.changeScreen.bind(this);
     }
 
-    changeScreen = (screen) => {
-        this.setState({screen: screen})
+    changeScreen = (data) => {
+        if (typeof(data) === 'string') {
+            this.setState({screen: data})
+        }
+        else {
+            this.setState({screen: 'LandingScreen', user: data[1]})
+        }
+
+        console.log(this.state)
     }
 
     render() {

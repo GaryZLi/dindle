@@ -15,6 +15,15 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -37,6 +46,8 @@ export default class Login extends Component {
               <View style={styles.infoContainer}>
                 <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.email}
+                    onChangeText={text => this.setState({email: text})}
                     style={styles.input}
                     placeholder="Enter email"
                     placeholderTextcolor="black"
@@ -48,6 +59,8 @@ export default class Login extends Component {
                     </View>
                     <View style={styles.inputBorder}>
                   <TextInput
+                    value={this.state.password}
+                    onChangeText={text => this.setState({password: text})}
                     style={styles.input}
                     placeholder="Enter password"
                     placeholderTextcolor="black"
@@ -57,7 +70,7 @@ export default class Login extends Component {
                     ref={"txtPassword"}></TextInput>
                     </View>
                     <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={styles.buttonText}>SIGN IN</Text>
+                        <Text style={styles.buttonText} onPress={() => console.log(this.state)}>SIGN IN</Text>
                     </TouchableOpacity>
               </View>
             </View>

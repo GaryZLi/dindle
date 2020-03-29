@@ -48,11 +48,11 @@ export default class Test extends React.Component {
         })
     }
 
-    async sleep() {
-        await setTimeout(()=>{}, 3000)
+    // async sleep() {
+    //     await setTimeout(()=>{}, 3000)
 
-        console.log("heeeee")
-    }
+    //     console.log("heeeee")
+    // }
 
     signin = () => {
         const ref = firebase.database().ref('users');
@@ -71,9 +71,9 @@ export default class Test extends React.Component {
 
     create = () => {
         const ref = firebase.database().ref('connections');
-        ref.set({[username]: {
-            users: [username],
-            restaurants: [],
+        ref.set({aznkidgl: {
+            users: ['Jang', 'Agnes'],
+            restaurants: ['A', 'B', 'etc...'],
             chosen: {}
         }})
     }
@@ -93,4 +93,3 @@ export default class Test extends React.Component {
         )
     }
 }
-

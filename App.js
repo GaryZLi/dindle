@@ -4,6 +4,9 @@ import { Text, View, StyleSheet } from 'react-native';
 import './src/Firebase';
 import Navigator from './src/components/Navigator';
 
+
+import Test from './Test';
+
 export default function App() {
 
   return (
