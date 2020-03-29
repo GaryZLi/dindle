@@ -64,6 +64,7 @@ export default class Home extends Component {
           reviewCount: res.data.businesses[restaurant].review_count,
           longitude: res.data.businesses[restaurant].coordinates.longitude,
           latitude: res.data.businesses[restaurant].coordinates.latitude,
+          imageUrl: res.data.businesses[restaurant].image_url
         };
 
         if (temp.longitude !== undefined && temp.latitude !== undefined && temp.name !== undefined && temp.reviewCount !== undefined && temp.rating !== undefined && temp.price !== undefined) {

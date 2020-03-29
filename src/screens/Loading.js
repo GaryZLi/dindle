@@ -21,16 +21,18 @@ export default class Loading extends Component {
   waitForUser() {
     let time = 1;
 
-    firebase.database().ref('connections/' + this.props.user + '/users')
-    .on('child_changed', snapshot => {     
-      this.props.changeScreen(['RestaurantsScreen', this.props.user]); 
-      if (time < 1) {
-        console.log("in here though?")
-        return this.props.changeScreen(['RestaurantsScreen', this.props.user]);
-      }
+    this.props.changeScreen(['RestaurantsScreen', this.props.user]); 
 
-      time -= 1
-    })
+    // firebase.database().ref('connections/' + this.props.user + '/users')
+    // .on('child_changed', snapshot => {     
+    //   this.props.changeScreen(['RestaurantsScreen', this.props.user]); 
+    //   if (time < 1) {
+    //     console.log("in here though?")
+    //     return this.props.changeScreen(['RestaurantsScreen', this.props.user]);
+    //   }
+
+    //   time -= 1
+    // })
   }
 
   render() {

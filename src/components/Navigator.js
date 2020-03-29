@@ -23,7 +23,6 @@ export default class Navigator extends React.Component {
             this.setState({screen: data})
         }
         else {
-            console.log('0------0')
             this.setState(() => ({screen: data[0], user: data[1]}))
         }
     }

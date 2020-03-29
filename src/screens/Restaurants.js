@@ -10,45 +10,69 @@ import {
 } from "react-native";
 
 import CardStack, { Card } from "react-native-card-stack-swiper";
+import firebase from 'firebase';
 
 class RestaurantContent extends Component {
   render() {
     return (
-        <View style={styles.content}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require("../components/picSrc/restaurant.png")}
-        ></Image>
+      <View style={styles.content}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={{uri: this.props.imageUrl}}
+          ></Image>
+        </View>
+        <View style={styles.descriptionContainerOne}>
+          <Text style={styles.description}>{this.props.user}</Text>
+          <Text style={styles.description}>{this.props.name}</Text>
+          <Text style={styles.description}>{this.props.price}</Text>
+        </View>
+        <View style={styles.descriptionContainerTwo}>
+          <Text style={styles.description}>{this.props.stars} stars</Text>
+          <Text style={styles.description}>{this.props.reviewCount} reviews</Text>
+          <TouchableOpacity style={styles.yelpButton}>
+            <Text style={styles.yelpButtonText}>Link to Yelp?</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-              <View style={styles.descriptionContainerOne}>
-              <Text style={styles.description}>Restaurant name</Text>
-              <Text style={styles.description}>$$</Text>
-          </View>
-          <View style={styles.descriptionContainerTwo}>
-              <Text style={styles.description}>5 stars</Text>
-              <Text style={styles.description}>5,000 reviews</Text>
-              <TouchableOpacity style={styles.yelpButton}>
-                <Text style={styles.yelpButtonText}>Link to Yelp</Text>
-              </TouchableOpacity>
-          </View>
-          </View>
     );
   }
 }
 
 export default class Restaurants extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      restaurants: {}
+    }
+  }
+
+  componentDidMount() {
+    firebase.database().ref('connections/' + this.props.user)
+    .once('value')
+    .then(res => this.setState(() => ({restaurants: res.toJSON().restaurants})));
+  }
+
   render() {
+    let restaurantCard = Object.keys(this.state.restaurants).map((data, id) => {
+      return (
+        <Card style={[styles.card, styles.card1]}>
+          <RestaurantContent key={id} name={this.state.restaurants[data].name} reviewCount={this.state.restaurants[data].reviewCount} imageUrl={this.state.restaurants[data].imageUrl} price={this.state.restaurants[data].price} stars={this.state.restaurants[data].rating} ></RestaurantContent>
+        </Card>
+      )
+    })
+
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content"></StatusBar>
         <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              source={require("../components/picSrc/dindle.png")}
-            ></Image>
-          </View>
-          <Text style={styles.title}>Restaurants</Text>
+          <Image
+            style={styles.logo}
+            source={require("../components/picSrc/dindle.png")}
+          ></Image>
+        </View>
+        <Text style={styles.title}>Restaurants</Text>
         <View style={styles.container}>
 
           <CardStack
@@ -59,15 +83,14 @@ export default class Restaurants extends Component {
           >
             {/* TODO: need to include onSwipedLeft and onSwipedRight for each card generated
               basically action that is done when a card is swiped left or right */}
+            
+            {restaurantCard}
+            {/* <Card style={[styles.card, styles.card2]}>
+              <RestaurantContent></RestaurantContent>
+            </Card>
             <Card style={[styles.card, styles.card1]}>
-              <RestaurantContent></RestaurantContent>
-            </Card>
-            <Card style={[styles.card, styles.card2]}>
-              <RestaurantContent></RestaurantContent>
-            </Card>
-            <Card style={[styles.card, styles.card1]}>
-              <RestaurantContent></RestaurantContent>
-            </Card>
+              <RestaurantContent user={this.props.user}></RestaurantContent>
+            </Card> */}
           </CardStack>
         </View>
       </SafeAreaView>
