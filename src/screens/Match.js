@@ -28,19 +28,11 @@ export default class Match extends Component {
           source={require("../components/picSrc/restaurant.png")}
         ></Image>
       </View>
-      <View style={styles.descriptionBox}>
+      <Text style={styles.name}>Restaurant Name</Text>
         <View style={styles.descriptionContainerOne}>
-        <View style={styles.descriptionLineOne}>
-          <Text style={styles.description}>Restaurant name</Text>
-          <Text style={styles.description}>$$</Text>
-        </View>
-        </View>
-        <View style={styles.descriptionContainerTwo}>
-        <View style={styles.descriptionLineTwo}>
-        <Text style={styles.description}>5 stars</Text>
+          <Text style={styles.description}>$$$</Text>
+          <Text style={styles.description}>5 stars</Text>
           <Text style={styles.description}>5,000 reviews</Text>
-        </View>
-        </View>
         </View>
         
         <TouchableOpacity style={styles.buttonContainer}>
@@ -52,31 +44,34 @@ export default class Match extends Component {
   }
 }
 
+
+
 const styles = StyleSheet.create({
     logoContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0.5,
-        marginTop: 50
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 0.3,
+        marginTop: "20%",
+        marginBottom: "10%"
       },
       logo: {
         width: 256,
-        height: 70,
-      },
-    container: {
-    flex: 1,
-    backgroundColor: "white",
-    flexDirection: "column",
-    alignSelf: "center",
-    justifyContent: "space-between",
-    width: "95%"
-  },
-  imageContainer: {
-    marginTop: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 3,
-  },
+        height: 70,},
+        container: {
+            flex: 1,
+            backgroundColor: "white",
+            flexDirection: "column",
+            alignSelf: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            height: "100%"
+          },
+          imageContainer: {
+            marginTop: "10%",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 4},
+
   image: {
     width: 300,
     height: 300
@@ -86,7 +81,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop:50,
     opacity: 0.9
   },
   description: {
@@ -100,11 +94,22 @@ const styles = StyleSheet.create({
     width:"75%",
     justifyContent: "center",
     alignSelf: "center"
-
+  },
+  name: {
+    color: "black",
+    fontSize: 16,
+    textAlign: "center",
+    fontWeight: "bold"
   },
   descriptionContainerOne: {
+    marginTop: 10,
+    flex: 1,
     resizeMode: "contain",
-    width: "100%"
+    flexDirection: "row",
+    alignSelf: 'flex-start',
+    justifyContent: "space-evenly",
+    width: "100%",
+    marginBottom: 10,
   },
   descriptionLineOne: {
     flexDirection: 'row',
