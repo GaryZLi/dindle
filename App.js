@@ -1,17 +1,24 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 
-import styles from './src/Stylesheet';
 import './src/Firebase';
-
-
-import Test from './Test';
+import Navigator from './src/components/Navigator';
 
 export default function App() {
 
   return (
     <View style={styles.container}>
-      <Test/>
+        <Navigator/>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: "100%"
+  },
+});
