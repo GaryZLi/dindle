@@ -93,30 +93,9 @@ export default class SignUp extends Component {
         .update({[this.state.username]: ''})
         .catch(err => this.setState(() => ({error: true, errorMsg: err.code})));
       }
-        
-
-
-        // firebase.database().ref('profile')
-        // .set({
-        //   'firstName': firstName,
-        //   'lastName': lastName,
-        //   'username': this.state.username
-        // })
-        // .then(() => {
-        //   const user = {
-        //     'firstName': firstName,
-        //     'lastName': lastName,
-        //     'username': this.state.username
-        //   }
-        //   this.setState({ user: user }, () => console.log("succ"));
-        // })
-        // .catch(err => this.setState({error: true, errorMsg: err.code}))
-      // }
     })
   }
-
-
-
+  
   render() {
     return (
       <SafeAreaView style={styles.container}>

@@ -12,7 +12,7 @@ import {
   Keyboard
 } from "react-native";
 
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class Home extends Component {
   constructor(props) {
@@ -22,54 +22,54 @@ export default class Home extends Component {
   render() {
     return (
       <View>
-          <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content"></StatusBar>
-        <KeyboardAwareScrollView style={{backgroundColor: 'white'}}
-        resetScrollToCoords={{x:0,y:0}}
-        contentContainerStyle={styles.container}
-        scrollEnabled={true}>
-                      <TouchableWithoutFeedback
-            style={styles.container}
-            onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-            {/* TODO: insert first name and username of logged in user */}
-            <View style={styles.logoContainer}>
-                <Image
-                  style={styles.logo}
-                  source={require('../components/picSrc/dindle.png')}></Image>
-                <Text style={styles.title}>Welcome, First Name!</Text>
+        <SafeAreaView style={styles.container}>
+          <StatusBar barStyle="dark-content"></StatusBar>
+          <KeyboardAwareScrollView style={{ backgroundColor: 'white' }}
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={styles.container}
+            scrollEnabled={true}>
+            <TouchableWithoutFeedback
+              style={styles.container}
+              onPress={Keyboard.dismiss}>
+              <View style={styles.container}>
+                {/* TODO: insert first name and username of logged in user */}
+                <View style={styles.logoContainer}>
+                  <Image
+                    style={styles.logo}
+                    source={require('../components/picSrc/dindle.png')}></Image>
+                  <Text style={styles.title}>Welcome, First Name!</Text>
+                </View>
+                <View style={styles.subcontainer}>
+                  <Text style={styles.title}>Your username is: username123</Text>
+                  <Text style={styles.title}>Enter a city name if you want to host!</Text>
+                  <View style={styles.inputBorder}>
+                    <TextInput
+                      style={styles.input}
+                      placeholderTextcolor="black"
+                      returnKeyType="go"
+                      autoCorrect={false}
+                    ></TextInput>
+                  </View>
+                  <TouchableOpacity style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>HOST A SESSION</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.title}> OR </Text>
+                  <Text style={styles.subtitle}> Enter a host's username! </Text>
+                  <View style={styles.inputBorder}>
+                    <TextInput
+                      style={styles.input}
+                      placeholderTextcolor="black"
+                      returnKeyType="go"
+                      autoCorrect={false}
+                    ></TextInput>
+                  </View>
+                  <TouchableOpacity style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>CONNECT</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            <View style={styles.subcontainer}>
-            <Text style={styles.title}>Your username is: username123</Text>
-            <Text style={styles.title}>Enter a city name if you want to host!</Text>
-            <View style={styles.inputBorder}>
-                <TextInput
-                  style={styles.input}
-                  placeholderTextcolor="black"
-                  returnKeyType="go"
-                  autoCorrect={false}
-                ></TextInput>
-              </View>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>HOST A SESSION</Text>
-              </TouchableOpacity>
-            <Text style={styles.title}> OR </Text>
-            <Text style={styles.subtitle}> Enter a host's username! </Text>
-              <View style={styles.inputBorder}>
-                <TextInput
-                  style={styles.input}
-                  placeholderTextcolor="black"
-                  returnKeyType="go"
-                  autoCorrect={false}
-                ></TextInput>
-              </View>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>CONNECT</Text>
-              </TouchableOpacity>
-            </View>
-        </View>
-        </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
+            </TouchableWithoutFeedback>
+          </KeyboardAwareScrollView>
         </SafeAreaView>
       </View>
     );
