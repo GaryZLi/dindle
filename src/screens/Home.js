@@ -11,12 +11,90 @@ import {
   TouchableWithoutFeedback,
   Keyboard
 } from "react-native";
-
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import axios from 'axios';
+import firebase from 'firebase';
+
+import apiKey from '../Yelp';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      city: '',
+      state: '',
+      hostName: '',
+      error: false,
+      errorMsg: ''
+    }
+
+    this.config = {
+      headers: {
+        'Authorization': `Bearer ${apiKey}`
+      },
+      params: {}
+    }
+  }
+
+  host = () => {
+    if (this.city === '' && this.state.state === '') {
+      return this.setState(() => ({error: true, errorMsg: 'Please fill both city and state!'}))
+    }
+
+    console.log("hosting")
+
+    this.config['params'] = {
+      term: 'restaurants',
+      open_now: true,
+      location: this.state.city + ', ' + this.state.state,
+      limit: 30
+    }
+
+    axios.get("https://api.yelp.com/v3/businesses/search", this.config)
+    .then(res => {
+      let data = []
+
+      for (let restaurant in res.data.businesses) {
+        const temp = {
+          name: res.data.businesses[restaurant].name,
+          rating: res.data.businesses[restaurant].rating,
+          price: res.data.businesses[restaurant].price,
+          reviewCount: res.data.businesses[restaurant].review_count,
+          longitude: res.data.businesses[restaurant].coordinates.longitude,
+          latitude: res.data.businesses[restaurant].coordinates.latitude,
+        };
+
+        if (temp.longitude !== undefined && temp.latitude !== undefined && temp.name !== undefined && temp.reviewCount !== undefined && temp.rating !== undefined && temp.price !== undefined) {
+          data.push(temp)
+        }
+      }
+
+      firebase.database().ref('connections/' + this.props.user.userName)
+      .set({
+        restaurants: data,
+        users: [this.props.user.userName]
+      })
+      .then(console.log('------------------------------------------------------------------------------------>'))
+      .catch(err => this.setState({error: true, errorMsg: err.code}))
+    }) 
+    .catch((error) => this.setState({error: true, errorMsg: error.code}))
+  }
+
+  connect = () => {
+    if (this.state.hostName === '') {
+      return this.setState(() => ({error: true, errorMsg: "Please enter the host's username!"}))
+    }
+
+    firebase.database().ref('connections')
+    .once('value', snapshot => {
+      if (snapshot.child(this.state.hostName).exists()) {
+        
+      }
+      else {
+        this.setState({error: true, errorMsg: 'This host has not started a session yet!'})
+      }
+    })
   }
 
   render() {
@@ -37,85 +115,60 @@ export default class Home extends Component {
                   <Image
                     style={styles.logo}
                     source={require('../components/picSrc/dindle.png')}></Image>
-                  <Text style={styles.title}>Welcome, First Name!</Text>
+                  <Text style={styles.title}>Welcome, {this.props.user.firstName}!</Text>
                 </View>
                 <View style={styles.subcontainer}>
-                  <Text style={styles.title}>Your username is: username123</Text>
-                  <Text style={styles.title}>Enter a city name if you want to host!</Text>
+                  <Text style={styles.title}>Your username is: {this.props.user.userName}</Text>
+                  <Text style={styles.title}>Enter a city and state to eat in!</Text>
                   <View style={styles.inputBorder}>
                     <TextInput
+                      value={this.state.city}
+                      onChangeText={text => this.setState({city: text})}
                       style={styles.input}
+                      placeholder="City"
                       placeholderTextcolor="black"
-                      returnKeyType="go"
+                      returnKeyType="next"
                       autoCorrect={false}
+                      onSubmitEditing={() => this.refs.state.focus()}
                     ></TextInput>
                   </View>
-                  <TouchableOpacity style={styles.buttonContainer}>
+                  <View style={styles.inputBorder}>
+                    <TextInput
+                      value={this.state.state}
+                      onChangeText={text => this.setState({state: text})}                    
+                      style={styles.input}
+                      placeholder="State"
+                      placeholderTextcolor="black"
+                      returnKeyType="next"
+                      autoCorrect={false}
+                      onSubmitEditing={() => this.host()}
+                      ref={"state"}>
+                    </TextInput>
+                  </View>
+                  <TouchableOpacity style={styles.buttonContainer} onPress={() => this.host()}>
                     <Text style={styles.buttonText}>HOST A SESSION</Text>
                   </TouchableOpacity>
-                  <Text style={styles.title}> OR </Text>
+                  <Text style={styles.title}> ---OR--- </Text>
                   <Text style={styles.subtitle}> Enter a host's username! </Text>
                   <View style={styles.inputBorder}>
                     <TextInput
+                      value={this.state.value}
+                      onChangeText={text => this.setState({hostName: text})}
                       style={styles.input}
                       placeholderTextcolor="black"
                       returnKeyType="go"
                       autoCorrect={false}
+                      onSubmitEditing={() => this.connect()}
                     ></TextInput>
                   </View>
                   <TouchableOpacity style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>CONNECT</Text>
+                    <Text style={styles.buttonText} onPress={() => this.connect()}>CONNECT</Text>
                   </TouchableOpacity>
+                  {this.state.error && <Text style={styles.errorText}>{this.state.errorMsg}</Text>}
                 </View>
               </View>
-<<<<<<< HEAD
             </TouchableWithoutFeedback>
           </KeyboardAwareScrollView>
-=======
-            <View style={styles.subcontainer}>
-            <Text style={styles.title}>Your username is: username123</Text>
-            <Text style={styles.title}>Enter a city and state if you want to host!</Text>
-            <View style={styles.inputBorder}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="City"
-                  placeholderTextcolor="black"
-                  returnKeyType="next"
-                  autoCorrect={false}
-                  onSubmitEditing={()=>this.refs.state.focus()}
-                ></TextInput>
-              </View>
-            <View style={styles.inputBorder}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="State"
-                  placeholderTextcolor="black"
-                  returnKeyType="next"
-                  autoCorrect={false}
-                  ref={"state"}>
-                </TextInput>
-              </View>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>HOST A SESSION</Text>
-              </TouchableOpacity>
-            <Text style={styles.title}> OR </Text>
-            <Text style={styles.subtitle}> Enter a host's username! </Text>
-              <View style={styles.inputBorder}>
-                <TextInput
-                  style={styles.input}
-                  placeholderTextcolor="black"
-                  returnKeyType="go"
-                  autoCorrect={false}
-                ></TextInput>
-              </View>
-              <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>CONNECT</Text>
-              </TouchableOpacity>
-            </View>
-        </View>
-        </TouchableWithoutFeedback>
-        </KeyboardAwareScrollView>
->>>>>>> e7545dc51754ca40be94ec3e8b959d352f29de4c
         </SafeAreaView>
       </View>
     );
@@ -188,5 +241,9 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "white",
     paddingHorizontal: 5
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "center",
   }
 });

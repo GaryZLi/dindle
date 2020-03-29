@@ -34,35 +34,35 @@ export default class SignUp extends Component {
     console.log("clicked")
     this.setState({error: false, errorMsg: ''})
 
-    // for (let item in this.state) {
-    //   if (item != 'error') {
-    //     if (this.state[item] === '') {
-    //       if (item === 'firstName') {
-    //         item = 'Missing First Name!';
-    //       }
-    //       else if (item === 'lastName') {
-    //         item = 'Missing Last Name!';
-    //       }
-    //       else if (item === 'email') {
-    //         item = 'Missing Email!';
-    //       }
-    //       else if (item === 'username') {
-    //         item = 'Missing username!';
-    //       }
-    //       else if (item === 'password') {
-    //         item = 'Missing password!';
-    //       }
-    //       else {
-    //         item = 'Please confirm password!';
-    //       }
-    //       return this.setState(() => ({error: true, errorMsg: item}));
-    //     }
-    //   }
-    // }
+    for (let item in this.state) {
+      if (item != 'error') {
+        if (this.state[item] === '') {
+          if (item === 'firstName') {
+            item = 'Missing First Name!';
+          }
+          else if (item === 'lastName') {
+            item = 'Missing Last Name!';
+          }
+          else if (item === 'email') {
+            item = 'Missing Email!';
+          }
+          else if (item === 'username') {
+            item = 'Missing username!';
+          }
+          else if (item === 'password') {
+            item = 'Missing password!';
+          }
+          else {
+            item = 'Please confirm password!';
+          }
+          return this.setState(() => ({error: true, errorMsg: item}));
+        }
+      }
+    }
 
-    // if (this.state.password !== this.state.confirmPass) {
-    //   return this.setState(() => ({error: true, errorMsg: 'Password does not match!'}));
-    // }
+    if (this.state.password !== this.state.confirmPass) {
+      return this.setState(() => ({error: true, errorMsg: 'Password does not match!'}));
+    }
 
     firebase.database().ref('users')
     .once('value', snapshot => {
@@ -73,29 +73,30 @@ export default class SignUp extends Component {
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(res => {
           firebase.database().ref('profile')
-          .set({
+          .update({
             [res.user.uid]: {
             'firstName': this.state.firstName[0].toUpperCase() + this.state.firstName.slice(1),
             'lastName': this.state.lastName,
-            'username': this.state.username
+            'userName': this.state.username
           }})
           .then(() => {
+            firebase.database().ref('users')
+            .update({[this.state.username]: ''})
+            .catch(err => this.setState(() => ({error: true, errorMsg: err.code})));
             const data = {
-              firstName: this.state.firstName,
-              username: this.state.username
+              firstName: this.state.firstName[0].toUpperCase() + this.state.firstName.slice(1),
+              userName: this.state.username
             }
             this.props.changeScreen(['HomeScreen', data])
           })
         })
         .catch(err => this.setState({error: true, errorMsg: err.code}))
 
-        firebase.database().ref('users')
-        .update({[this.state.username]: ''})
-        .catch(err => this.setState(() => ({error: true, errorMsg: err.code})));
+        
       }
     })
   }
-  
+
   render() {
     return (
       <SafeAreaView style={styles.container}>

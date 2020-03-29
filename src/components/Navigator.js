@@ -9,7 +9,7 @@ export default class Navigator extends React.Component {
         super();
 
         this.state = {
-            screen: 'HomeScreen',
+            screen: 'LandingScreen',
             user: ''
         }
 
@@ -38,7 +38,7 @@ export default class Navigator extends React.Component {
             screen = <SignUp changeScreen={this.changeScreen}/>
         }
         else if (this.state.screen === 'HomeScreen') {
-            screen = <Home changeScreen={this.changeScreen}/>
+            screen = <Home changeScreen={this.changeScreen} user={this.state.user}/>
         }
 
         return (

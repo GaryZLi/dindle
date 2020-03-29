@@ -14,14 +14,37 @@ import {
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
+import firebase from 'firebase';
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: false,
+      erroMsg: ''
     }
+  }
+
+  signin = () => {
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then(res => {
+      firebase.database().ref('profile/' + res.user.uid)
+      .once('value')
+      .then(res => {
+        res = res.toJSON()
+
+        const data = {
+          'firstName': res.firstName,
+          'userName': res.userName
+        }
+
+        this.props.changeScreen(['HomeScreen', data])
+      })
+    })
+    .catch(err => this.setState({error: true, errorMsg: err.code}))
   }
 
   render() {
@@ -57,7 +80,7 @@ export default class Login extends Component {
                     onSubmitEditing={()=>this.refs.txtPassword.focus()}>
                     </TextInput>
                     </View>
-                    <View style={styles.inputBorder}>
+                <View style={styles.inputBorder}>
                   <TextInput
                     value={this.state.password}
                     onChangeText={text => this.setState({password: text})}
@@ -67,11 +90,14 @@ export default class Login extends Component {
                     returnKeyType="go"
                     secureTextEntry
                     autoCorrect={false}
-                    ref={"txtPassword"}></TextInput>
+                    onSubmitEditing={()=>this.signin()}
+                    ref={"txtPassword"}>
+                    </TextInput>
                     </View>
                     <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={styles.buttonText} onPress={() => console.log(this.state)}>SIGN IN</Text>
+                        <Text style={styles.buttonText} onPress={() => this.signin()}>SIGN IN</Text>
                     </TouchableOpacity>
+                    {this.state.error && <Text style={styles.errorText}>{this.state.errorMsg}</Text>}
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -135,5 +161,9 @@ const styles = StyleSheet.create({
       color: 'white',
       textAlign: 'center',
       fontWeight: 'bold'
+  },
+  errorText: {
+    color: 'red',
+    textAlign: "center",
   }
 });
