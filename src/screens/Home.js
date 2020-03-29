@@ -75,7 +75,7 @@ export default class Home extends Component {
       firebase.database().ref('connections/' + this.props.user.userName.toLowerCase())
       .set({
         restaurants: data,
-        users: [{[this.props.user.userName]: this.props.user.userName}]
+        users: {[this.props.user.userName]: this.props.user.userName}
       })
       .then(this.props.changeScreen(['LoadingScreen', this.props.user.userName]))
       .catch(err => this.setState({error: true, errorMsg: err.code}))
