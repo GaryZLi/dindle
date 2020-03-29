@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  Linking,
   StatusBar,
   SafeAreaView,
   TouchableOpacity
@@ -11,41 +12,43 @@ import {
 
 
 export default class Match extends Component {
+  getDirection = () => {
+    const lat = this.props.data.latitude;
+    const long = this.props.data.longitude;
+    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const latLng = `${lat},${long}`;
+    const label = 'Custom Label';
+    const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+    });
+
+    Linking.openURL(url); 
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content"></StatusBar>
         <View style={styles.container}>
-        <View style={styles.logoContainer}>
-                <Image
-                  style={styles.logo}
-                  source={require('../components/picSrc/dindle.png')}></Image>
-              </View>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require('../components/picSrc/dindle.png')}></Image>
+          </View>
           <Text style={styles.title}>It's a match!</Text>
           <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={require("../components/picSrc/restaurant.png")}
-        ></Image>
-      </View>
-      <View style={styles.descriptionBox}>
-        <View style={styles.descriptionContainerOne}>
-        <View style={styles.descriptionLineOne}>
-          <Text style={styles.description}>Restaurant name</Text>
-          <Text style={styles.description}>$$</Text>
-        </View>
-        </View>
-        <View style={styles.descriptionContainerTwo}>
-        <View style={styles.descriptionLineTwo}>
-        <Text style={styles.description}>5 stars</Text>
-          <Text style={styles.description}>5,000 reviews</Text>
-        </View>
-        </View>
-        </View>
-        
-        <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={styles.buttonText}>GET DIRECTIONS</Text>
-                    </TouchableOpacity>
+            <Image
+              style={styles.image}
+              source={{ uri: this.props.data.imageUrl }}
+            ></Image>
+          </View>
+          <View style={styles.descriptionBox}>
+            <Text style={styles.description}>{this.props.data.name}</Text>
+          </View>
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => this.getDirection()}>
+            <Text style={styles.buttonText}>GET DIRECTIONS</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );
@@ -53,17 +56,17 @@ export default class Match extends Component {
 }
 
 const styles = StyleSheet.create({
-    logoContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 0.5,
-        marginTop: 50
-      },
-      logo: {
-        width: 256,
-        height: 70,
-      },
-    container: {
+  logoContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 0.5,
+    marginTop: 50
+  },
+  logo: {
+    width: 256,
+    height: 70,
+  },
+  container: {
     flex: 1,
     backgroundColor: "white",
     flexDirection: "column",
@@ -86,21 +89,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop:50,
+    marginTop: 50,
     opacity: 0.9
   },
   description: {
     color: "black",
-    fontSize: 16,
-    textAlign: "left"
+    fontSize: 30,
+    textAlign: 'center',
   },
   descriptionBox: {
-      marginTop: 100,
+    marginTop: 100,
     flex: 2,
-    width:"75%",
+    width: "75%",
     justifyContent: "center",
-    alignSelf: "center"
-
+    alignSelf: "center",
   },
   descriptionContainerOne: {
     resizeMode: "contain",
@@ -131,19 +133,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignSelf: 'center',
     marginBottom: 100,
-},
+  },
   buttonText: {
     color: "white",
     textAlign: "center",
     fontWeight: "bold"
   },
   yelpButton: {
-      backgroundColor: 'pink',
-      height: 20,
-      width: 80,
+    backgroundColor: 'pink',
+    height: 20,
+    width: 80,
   },
   yelpButtonText: {
-      textAlign: 'center',
+    textAlign: 'center',
   },
 
 });

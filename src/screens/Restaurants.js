@@ -6,7 +6,8 @@ import {
   Image,
   StatusBar,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
 
 import CardStack, { Card } from "react-native-card-stack-swiper";
@@ -28,8 +29,8 @@ class RestaurantContent extends Component {
           <Text style={styles.description}>{this.props.price}</Text>
           <Text style={styles.description}>{this.props.stars} stars</Text>
           <Text style={styles.description}>{this.props.reviewCount} reviews</Text>
-          <TouchableOpacity style={styles.yelpButton}>
-            <Text style={styles.yelpButtonText}>Link to Yelp?</Text>
+          <TouchableOpacity style={styles.yelpButton} onPress={() => Linking.openURL(this.props.url)}>
+            <Text style={styles.yelpButtonText}>Link to Yelp</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -47,15 +48,37 @@ export default class Restaurants extends Component {
   }
 
   componentDidMount() {
-    firebase.database().ref('connections/' + this.props.user)
+    firebase.database().ref('connections/' + this.props.host)
     .once('value')
     .then(res => this.setState(() => ({restaurants: res.toJSON().restaurants})));
+
+    firebase.database().ref('connections/' + this.props.host)
+    // .off()
+    .on('value', snapshot => {
+      if (snapshot.child('chosen').exists()) {
+         this.props.changeScreen(['MatchedScreen', snapshot.child('chosen').val().restaurant])
+      }
+    })
+  }
+
+  handleSwipe = (id) => {
+    firebase.database().ref('connections/' + this.props.host + '/restaurants/' + id + '/users')
+    .push({[this.props.user]: this.props.user})
+    .then(
+      firebase.database().ref('connections/' + this.props.host + '/restaurants/' + id + '/users')
+      .once('value', snapshot => {
+        if (snapshot.numChildren() > 1) {
+          firebase.database().ref('connections/' + this.props.host + '/chosen')
+          .set({restaurant: this.state.restaurants[id]})
+        }
+      })  
+    )    
   }
 
   render() {
     let restaurantCard = Object.keys(this.state.restaurants).map((data, id) => {
       return (
-        <Card key={id} style={[styles.card, styles.card1]}>
+        <Card key={id} style={[styles.card, styles.card1]} onSwipedRight={() => this.handleSwipe(id)}>
           <RestaurantContent name={this.state.restaurants[data].name} reviewCount={this.state.restaurants[data].reviewCount} imageUrl={this.state.restaurants[data].imageUrl} price={this.state.restaurants[data].price} stars={this.state.restaurants[data].rating} ></RestaurantContent>
         </Card>
       )
@@ -78,10 +101,7 @@ export default class Restaurants extends Component {
             ref={swiper => {
               this.swiper = swiper;
             }}
-            onSwipeRight={() => this.handleSwipe()}
           >
-            {/* TODO: need to include onSwipedLeft and onSwipedRight for each card generated
-              basically action that is done when a card is swiped left or right */}
             {restaurantCard}
           </CardStack>
           <View style={styles.intro}>

@@ -18,7 +18,7 @@ export default class Loading extends Component {
     firebase.database().ref('connections/' + this.props.user + '/users')
     .on('value', snapshot => {
       if (snapshot.numChildren() > 1) {
-        return this.props.changeScreen(['RestaurantsScreen', this.props.user]);
+        return this.props.changeScreen(['RestaurantsScreen', {user: this.props.user, host: this.props.user}]);
       }
       else {
         return (
@@ -111,3 +111,12 @@ const styles = StyleSheet.create({
   },
 }
 );  
+
+
+
+
+
+
+
+
+

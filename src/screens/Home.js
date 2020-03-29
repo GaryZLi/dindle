@@ -47,8 +47,8 @@ export default class Home extends Component {
     this.config['params'] = {
       term: 'restaurants',
       open_now: true,
-      location: 'oakland, ca',
-      // location: this.state.city + ', ' + this.state.state,
+      // location: 'oakland, ca',
+      location: this.state.city + ', ' + this.state.state,
       limit: 30
     }
 
@@ -64,7 +64,8 @@ export default class Home extends Component {
           reviewCount: res.data.businesses[restaurant].review_count,
           longitude: res.data.businesses[restaurant].coordinates.longitude,
           latitude: res.data.businesses[restaurant].coordinates.latitude,
-          imageUrl: res.data.businesses[restaurant].image_url
+          imageUrl: res.data.businesses[restaurant].image_url,
+          url: res.data.businesses[restaurant].url,
         };
 
         if (temp.longitude !== undefined && temp.latitude !== undefined && temp.name !== undefined && temp.reviewCount !== undefined && temp.rating !== undefined && temp.price !== undefined) {
@@ -84,8 +85,6 @@ export default class Home extends Component {
   }
 
   connect = () => {
-    console.log("connect")
-
     this.setState((prev) => ({hostName: prev.hostName.toLowerCase()}))
 
     if (this.state.hostName === this.props.user.userName) {
@@ -101,7 +100,7 @@ export default class Home extends Component {
       if (snapshot.child(this.state.hostName).exists()) {
         firebase.database().ref('connections/' + this.state.hostName + '/' + 'users')
         .update({[this.props.user.userName]: this.props.user.userName})
-        .then(this.props.changeScreen(['RestaurantsScreen', this.state.hostName]))
+        .then(this.props.changeScreen(['RestaurantsScreen', {user: this.props.user.userName, host: this.state.hostName, location: "connect"}]))
       }
       else {
         this.setState({error: true, errorMsg: 'This host has not started a session yet!'})
@@ -232,7 +231,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
     borderRadius: 40
-
   },
   buttonText: {
     color: "white",
