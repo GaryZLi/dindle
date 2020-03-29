@@ -4,13 +4,37 @@ import {
   Text,
   View,
   Image,
-  TouchableWithoutFeedback,
   StatusBar,
-  TextInput,
   SafeAreaView,
-  Keyboard,
   TouchableOpacity
 } from "react-native";
+
+import CardStack, { Card } from 'react-native-card-stack-swiper';
+
+class RestaurantContent extends Component {
+    render(){
+        return (<View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={require("../components/picSrc/restaurant.png")}
+        ></Image>
+        <View style={styles.descriptionContainerOne}>
+        <View style={styles.descriptionLineOne}>
+          <Text style={styles.description}>Restaurant name</Text>
+          <Text style={styles.description}>$$</Text>
+        </View>
+        </View>
+        <View style={styles.descriptionContainerTwo}>
+        <View style={styles.descriptionLineTwo}>
+          <Text style={styles.description}>5 stars</Text>
+          <TouchableOpacity style={styles.yelpButton}>
+            <Text style={styles.yelpButtonText}>Link to Yelp</Text>
+          </TouchableOpacity>
+        </View>
+        </View> 
+      </View>);
+    }
+}
 
 export default class Restaurants extends Component {
   render() {
@@ -24,36 +48,20 @@ export default class Restaurants extends Component {
                   source={require('../components/picSrc/dindle.png')}></Image>
               </View>
           <Text style={styles.title}>Restaurants</Text>
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={require("../components/picSrc/restaurant.png")}
-            ></Image>
-            <View style={styles.descriptionContainerOne}>
-            <View style={styles.descriptionLineOne}>
-              <Text style={styles.description}>Restaurant name</Text>
-              <Text style={styles.description}>$$</Text>
-            </View>
-            </View>
-            <View style={styles.descriptionContainerTwo}>
-            <View style={styles.descriptionLineTwo}>
-              <Text style={styles.description}>5 stars</Text>
-              <TouchableOpacity style={styles.yelpButton}>
-                <Text style={styles.yelpButtonText}>Link to Yelp</Text>
-              </TouchableOpacity>
-              
-            </View>
-            </View>
-          </View>
 
-          <View style={styles.bottomContainer}>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.buttonText}>Dislike</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>Like</Text>
-            </TouchableOpacity>
-          </View>
+          <CardStack style={styles.content} ref={swiper => { this.swiper = swiper }}>
+              {/* TODO: need to include onSwipedLeft and onSwipedRight for each card generated
+              basically action that is done when a card is swiped left or right */}
+    <Card style={[styles.card, styles.card1]}>
+                  <RestaurantContent></RestaurantContent>
+        </Card>
+    <Card style={[styles.card, styles.card2]}>
+    <RestaurantContent></RestaurantContent>
+        </Card>
+    <Card style={[styles.card, styles.card1]}>
+    <RestaurantContent></RestaurantContent>
+        </Card>
+  </CardStack>
         </View>
       </SafeAreaView>
     );
@@ -61,6 +69,37 @@ export default class Restaurants extends Component {
 }
 
 const styles = StyleSheet.create({
+    content:{
+        flex: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      card:{
+        width: 320,
+        height: 470,
+        backgroundColor: '#ffa79c',
+        borderRadius: 5,
+        shadowColor: 'rgba(0,0,0,0.5)',
+        shadowOffset: {
+          width: 0,
+          height: 1
+        },
+        shadowOpacity:0.5,
+      },
+      card1: {
+        backgroundColor: '#ffa79c',
+      },
+      card2: {
+        backgroundColor: '#ffa79c',
+      },
+      label: {
+        lineHeight: 400,
+        textAlign: 'center',
+        fontSize: 55,
+        fontFamily: 'System',
+        color: '#ffffff',
+        backgroundColor: 'transparent',
+      }, 
     logoContainer: {
         alignItems: 'center',
         justifyContent: 'center',
