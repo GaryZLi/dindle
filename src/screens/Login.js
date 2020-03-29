@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
       backgroundColor: 'maroon',
-      paddingVertical: 15
+      paddingVertical: 15,
+      borderRadius: 40
   },
   buttonText: {
       color: 'white',
