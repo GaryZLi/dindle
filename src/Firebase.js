@@ -12,6 +12,3 @@ if (!firebase.apps.length) {
         measurementId: "G-R0B0N6PQFV"
     })
 }
-
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
