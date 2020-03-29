@@ -32,13 +32,6 @@ class RestaurantContent extends Component {
             <Text style={styles.yelpButtonText}>Link to Yelp?</Text>
           </TouchableOpacity>
         </View>
-        {/* <View style={styles.descriptionContainerTwo}>
-          <Text style={styles.description}>{this.props.stars} stars</Text>
-          <Text style={styles.description}>{this.props.reviewCount} reviews</Text>
-          <TouchableOpacity style={styles.yelpButton}>
-            <Text style={styles.yelpButtonText}>Link to Yelp?</Text>
-          </TouchableOpacity>
-        </View> */}
       </View>
     );
   }
@@ -85,17 +78,11 @@ export default class Restaurants extends Component {
             ref={swiper => {
               this.swiper = swiper;
             }}
+            onSwipeRight={() => this.handleSwipe()}
           >
             {/* TODO: need to include onSwipedLeft and onSwipedRight for each card generated
               basically action that is done when a card is swiped left or right */}
-            
             {restaurantCard}
-            {/* <Card style={[styles.card, styles.card2]}>
-              <RestaurantContent></RestaurantContent>
-            </Card>
-            <Card style={[styles.card, styles.card1]}>
-              <RestaurantContent user={this.props.user}></RestaurantContent>
-            </Card> */}
           </CardStack>
           <View style={styles.intro}>
         <Text style={styles.title}>Restaurants</Text>
