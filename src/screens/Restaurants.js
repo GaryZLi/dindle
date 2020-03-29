@@ -27,6 +27,7 @@ class RestaurantContent extends Component {
         <View style={styles.descriptionContainerTwo}>
         <View style={styles.descriptionLineTwo}>
           <Text style={styles.description}>5 stars</Text>
+          <Text style={styles.description}>5,000 reviews</Text>
           <TouchableOpacity style={styles.yelpButton}>
             <Text style={styles.yelpButtonText}>Link to Yelp</Text>
           </TouchableOpacity>
@@ -187,8 +188,4 @@ const styles = StyleSheet.create({
   yelpButtonText: {
       textAlign: 'center',
   },
-  thumbsUp: {
-      height:20,
-      width:20,
-  }
 });
