@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
+    alignSelf: 'center',
+    justifyContent: "space-between",
+    width: "95%"
   },
   logoContainer: {
     alignItems: 'center',
@@ -92,12 +95,9 @@ const styles = StyleSheet.create({
     opacity: 0.9
   },
   infoContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 350,
-    padding: 20,
+    flex: 1,
+    resizeMode: "contain",
+    width: "100%",
   },
   inputBorder: {
     borderLeftWidth: 1,
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 35,
+    width: "100%",
     backgroundColor: 'white',
     paddingHorizontal: 5,
   },
