@@ -229,7 +229,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     width: "90%",
     alignSelf: 'center',
-    marginBottom: 10
+    marginBottom: 10,
+    borderRadius: 40
 
   },
   buttonText: {
@@ -244,13 +245,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "grey",
     height: 40,
-    marginBottom: 10
+    marginBottom: 10,
   },
   input: {
     height: 35,
     width: "90%",
     backgroundColor: "white",
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
   },
   errorText: {
     color: 'red',

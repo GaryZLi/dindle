@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'maroon',
         paddingVertical: 15,
         width: "90%",
-        marginTop: 15
+        marginTop: 15,
+        borderRadius: 40
     },
     buttonContainer2: {
         backgroundColor: 'white',
@@ -74,7 +75,8 @@ const styles = StyleSheet.create({
         borderRightWidth: 1,
         paddingVertical: 15,
         width: "90%",
-        marginTop: 15
+        marginTop: 15,
+        borderRadius: 40
     },
     buttonText: {
         color: 'white',

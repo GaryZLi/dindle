@@ -220,7 +220,8 @@ const styles = StyleSheet.create({
     flex: 6,
     alignSelf: "center",
     alignContent: "center",
-    width: "95%"
+    width: "100%",
+    marginRight:10
   },
   title: {
     flex: 1,
@@ -236,7 +237,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     width: "90%",
     marginTop: 15,
-    alignSelf: "center"
+    alignSelf: "center",
+    borderRadius: 40
   },
   buttonText: {
     color: "white",
@@ -250,6 +252,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "grey",
     height: 40,
+    width: "100%",
     marginBottom: 10
   },
   input: {
