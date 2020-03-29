@@ -75,7 +75,7 @@ export default class Home extends Component {
       firebase.database().ref('connections/' + this.props.user.userName.toLowerCase())
       .set({
         restaurants: data,
-        users: [this.props.user.userName]
+        users: [{[this.props.user.userName]: this.props.user.userName}]
       })
       .then(this.props.changeScreen(['LoadingScreen', this.props.user.userName]))
       .catch(err => this.setState({error: true, errorMsg: err.code}))
@@ -100,7 +100,7 @@ export default class Home extends Component {
     .once('value', snapshot => {
       if (snapshot.child(this.state.hostName).exists()) {
         firebase.database().ref('connections/' + this.state.hostName + '/' + 'users')
-        .update({[this.props.user.userName]: ''})
+        .update({[this.props.user.userName]: this.props.user.userName})
       }
       else {
         this.setState({error: true, errorMsg: 'This host has not started a session yet!'})
@@ -121,7 +121,6 @@ export default class Home extends Component {
               style={styles.container}
               onPress={Keyboard.dismiss}>
               <View style={styles.container}>
-                {/* TODO: insert first name and username of logged in user */}
                 <View style={styles.logoContainer}>
                   <Image
                     style={styles.logo}

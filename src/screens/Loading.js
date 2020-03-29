@@ -14,40 +14,44 @@ export default class Loading extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    this.waitForUser();
-  }
-
-  waitForUser() {
-    let time = 1;
-
-    this.props.changeScreen(['RestaurantsScreen', this.props.user]); 
-
-    // firebase.database().ref('connections/' + this.props.user + '/users')
-    // .on('child_changed', snapshot => {     
-    //   this.props.changeScreen(['RestaurantsScreen', this.props.user]); 
-    //   if (time < 1) {
-    //     console.log("in here though?")
-    //     return this.props.changeScreen(['RestaurantsScreen', this.props.user]);
-    //   }
-
-    //   time -= 1
-    // })
-  }
-
   render() {
-    return <View>
-      <StatusBar barStyle="dark-content"></StatusBar>
-      <View style={styles.container}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require('../components/picSrc/dindle.png')}></Image>
-          <Text style={styles.title}>Waiting for another person to connect</Text>
-          <AnimatedEllipsis></AnimatedEllipsis>
+    firebase.database().ref('connections/' + this.props.user + '/users')
+    .on('value', snapshot => {
+      if (snapshot.numChildren() > 1) {
+        return this.props.changeScreen(['RestaurantsScreen', this.props.user]);
+      }
+      else {
+        return (
+          <View>
+            <StatusBar barStyle="dark-content"></StatusBar>
+            <View style={styles.container}>
+              <View style={styles.logoContainer}>
+                <Image
+                  style={styles.logo}
+                  source={require('../components/picSrc/dindle.png')}></Image>
+                <Text style={styles.title}>Waiting for another person to connect</Text>
+                <AnimatedEllipsis></AnimatedEllipsis>
+              </View>
+            </View>
+          </View>
+        )
+      }
+    })
+
+    return (
+      <View>
+        <StatusBar barStyle="dark-content"></StatusBar>
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require('../components/picSrc/dindle.png')}></Image>
+            <Text style={styles.title}>Waiting for another person to connect</Text>
+            <AnimatedEllipsis></AnimatedEllipsis>
+          </View>
         </View>
       </View>
-    </View>
+    )
   }
 }
 
