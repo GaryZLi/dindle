@@ -41,14 +41,26 @@ export default class Home extends Component {
               </View>
             <View style={styles.subcontainer}>
             <Text style={styles.title}>Your username is: username123</Text>
-            <Text style={styles.title}>Enter a city name if you want to host!</Text>
+            <Text style={styles.title}>Enter a city and state if you want to host!</Text>
             <View style={styles.inputBorder}>
                 <TextInput
                   style={styles.input}
+                  placeholder="City"
                   placeholderTextcolor="black"
-                  returnKeyType="go"
+                  returnKeyType="next"
                   autoCorrect={false}
+                  onSubmitEditing={()=>this.refs.state.focus()}
                 ></TextInput>
+              </View>
+            <View style={styles.inputBorder}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="State"
+                  placeholderTextcolor="black"
+                  returnKeyType="next"
+                  autoCorrect={false}
+                  ref={"state"}>
+                </TextInput>
               </View>
             <TouchableOpacity style={styles.buttonContainer}>
                 <Text style={styles.buttonText}>HOST A SESSION</Text>
