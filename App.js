@@ -2,13 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import './Firebase';
-import Login from './src/screens/Login';
+import Landing from './src/screens/Landing';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Login></Login>
+      <Landing></Landing>
     </View>
   );
 }
